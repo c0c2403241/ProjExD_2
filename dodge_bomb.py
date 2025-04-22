@@ -121,8 +121,6 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
         bb_imgs.append(bb_img)
     return bb_imgs, bb_accs
 
-
-
 if __name__ == "__main__":
     pg.init()
     main()
