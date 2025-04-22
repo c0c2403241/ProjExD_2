@@ -29,7 +29,6 @@ def main():
     bb_rct = bb_img.get_rect()
     bb_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     vx, vy = +5, +5
-    
     clock = pg.time.Clock()
     tmr = 0
     
@@ -78,11 +77,11 @@ def game_over(screen: pg.Surface) -> None:
     font = pg.font.SysFont(None, 80)
     text = font.render("Game Over", True, (255, 0, 0))
     game_over_img = pg.image.load("fig/8.png")
-    game_over_img = pg.transform.rotozoom(game_over_img, 0, 0.9)
     screen.blit(game_over_img, screen.get_rect())
     screen.blit(text, (WIDTH//2 - 150, HEIGHT//2 - 40))
     pg.display.update()
     pg.time.wait(2000)
+
 
 
 if __name__ == "__main__":
