@@ -20,16 +20,13 @@ def main():
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("fig/pg_bg.jpg")
 
-    # こうかとん画像（向き変更なし）
     kk_img = pg.image.load("fig/3.png")
-    kk_img = pg.transform.rotozoom(kk_img, 0, 0.9)
+    kk_img = pg.transform.rotozoom(kk_img, 180, 0.9)
     kk_rct = kk_img.get_rect(center=(300, 200))
 
-    # 爆弾初期化（初期画像は後で更新される）
     bb_rct = pg.Rect(random.randint(0, WIDTH), random.randint(0, HEIGHT), 20, 20)
     vx, vy = +5, +5
 
-    # 拡大画像と加速度リストの初期化
     bb_imgs, bb_accs = init_bb_imgs()
 
     clock = pg.time.Clock()
@@ -58,7 +55,6 @@ def main():
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)
 
-        # 爆弾の拡大・加速（追加機能②）
         idx = min(tmr // 500, 9)
         bb_img = bb_imgs[idx]
         acc = bb_accs[idx]
@@ -83,10 +79,7 @@ def main():
         clock.tick(50)
 
 def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
-    """
-    範囲外に出たかを判定する関数
-    戻り値は(横方向にOKか, 縦方向にOKか)
-    """
+    
     yoko, tate = True, True
     if obj_rct.left < 0 or WIDTH < obj_rct.right:
         yoko = False
@@ -95,9 +88,7 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
     return yoko, tate
 
 def game_over(screen: pg.Surface) -> None:
-    """
-    ゲームオーバー画面を表示する関数
-    """
+   
     blackout = pg.Surface((WIDTH, HEIGHT))
     blackout.set_alpha(150)
     blackout.fill((0, 0, 0))
@@ -119,9 +110,7 @@ def game_over(screen: pg.Surface) -> None:
     time.sleep(5)
 
 def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
-    """
-    サイズの異なる爆弾Surfaceを要素としたリストと加速度リストを返す
-    """
+   
     bb_imgs: list[pg.Surface] = []
     bb_accs: list[int] = [a for a in range(1, 11)]
     for r in range(1, 11):
@@ -131,6 +120,8 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
         bb_img.set_colorkey((0, 0, 0))
         bb_imgs.append(bb_img)
     return bb_imgs, bb_accs
+
+
 
 if __name__ == "__main__":
     pg.init()
