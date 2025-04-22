@@ -40,7 +40,7 @@ def main():
         screen.blit(bg_img, [0, 0]) 
 
         if kk_rct.colliderect(bb_rct):
-            print("ゲームオーバー")
+            game_over(screen)
             return    
 
         key_lst = pg.key.get_pressed()
@@ -72,6 +72,18 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
     if obj_rct.top < 0 or HEIGHT < obj_rct.bottom:
         tate = False
     return yoko, tate
+
+def game_over(screen: pg.Surface) -> None:
+    """ゲームオーバー時の処理を行う"""
+    font = pg.font.SysFont(None, 80)
+    text = font.render("Game Over", True, (255, 0, 0))
+    game_over_img = pg.image.load("fig/8.png")
+    game_over_img = pg.transform.rotozoom(game_over_img, 0, 0.9)
+    screen.blit(game_over_img, screen.get_rect())
+    screen.blit(text, (WIDTH//2 - 150, HEIGHT//2 - 40))
+    pg.display.update()
+    pg.time.wait(2000)
+
 
 if __name__ == "__main__":
     pg.init()
