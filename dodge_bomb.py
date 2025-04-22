@@ -1,6 +1,7 @@
 import os
 import random
 import sys
+import time
 import pygame as pg
 
 
@@ -29,6 +30,8 @@ def main():
     bb_rct = bb_img.get_rect()
     bb_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     vx, vy = +5, +5
+    screen.blit(bb_img, bb_rct)
+    
     clock = pg.time.Clock()
     tmr = 0
     
@@ -40,7 +43,7 @@ def main():
 
         if kk_rct.colliderect(bb_rct):
             game_over(screen)
-            return    
+            return
 
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
@@ -72,15 +75,25 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
         tate = False
     return yoko, tate
 
+import time
+
 def game_over(screen: pg.Surface) -> None:
-    """ゲームオーバー時の処理を行う"""
+    blackout = pg.Surface((WIDTH, HEIGHT))
+    blackout.set_alpha(150)
+    blackout.fill((0, 0, 0))
+    screen.blit(blackout, (0, 0))
+    sad_img = pg.image.load("fig/8.png")
+    sad_img = pg.transform.rotozoom(sad_img, 0, 0.9)
+    sad_rct1 = sad_img.get_rect(center=(WIDTH//2 + 180, HEIGHT//2))
+    sad_rct2 = sad_img.get_rect(center=(WIDTH//2 - 180, HEIGHT//2))
+    screen.blit(sad_img, sad_rct1)
+    screen.blit(sad_img, sad_rct2)
     font = pg.font.SysFont(None, 80)
-    text = font.render("Game Over", True, (255, 0, 0))
-    game_over_img = pg.image.load("fig/8.png")
-    screen.blit(game_over_img, screen.get_rect())
-    screen.blit(text, (WIDTH//2 - 150, HEIGHT//2 - 40))
+    text = font.render("Game Over", True, (255, 255, 255))
+    text_rect = text.get_rect(center=(WIDTH//2, HEIGHT//2))
+    screen.blit(text, text_rect)
     pg.display.update()
-    pg.time.wait(2000)
+    time.sleep(5)
 
 
 
